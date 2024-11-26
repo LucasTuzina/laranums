@@ -1,0 +1,13 @@
+{
+    "name": "lucastuzina/laranums",
+    "description": "Provides a trait with usefull utillity methods for enums in laravel",
+    "type": "libary",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Lucastuzina\\Laranums\\": "src/"
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {}
+}
