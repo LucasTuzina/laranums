@@ -5,7 +5,7 @@ Larnums Package provides useful methods nearly every Laravel application that us
 `composer require lucastuzina/laranums`
 
 ## Usage
-To use the Package simple import the trait on your enum
+To use the Package simple import the trait on your enum:
 
 ```php
 use Lucastuzina\Laranums\HandleEnums;
