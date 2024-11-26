@@ -1,6 +1,6 @@
 {
     "name": "lucastuzina/laranums",
-    "description": "Provides a trait with usefull utillity methods for enums in laravel",
+    "description": "Provides a trait with useful utility methods for enums in laravel",
     "type": "libary",
     "license": "MIT",
     "autoload": {
