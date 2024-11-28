@@ -12,7 +12,7 @@ use Lucastuzina\Laranums\Laranum;
 
 enum SomeEnum
 {
-    use HandleEnums;
+    use Laranum;
 
     case FirstCase;
     case SecondCase;
