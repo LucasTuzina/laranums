@@ -92,15 +92,16 @@ trait Laranum
      * Returns a random case of the enum
      * @throws RandomException
      */
-    public static function rand(): ?self
+    public static function rand(array $ignoredCases = []): ?self
     {
         $cases = self::cases();
-        if (empty($cases)) {
+        $filteredCases = array_filter($cases, fn($case) => !in_array($case, $ignoredCases, true));
+    
+        if (empty($filteredCases)) {
             return null;
         }
-        $count = count($cases) - 1;
-        
-        return $cases[random_int(0, $count)];
+    
+        return $filteredCases[array_rand($filteredCases)];
     }
 
     // Checks if provided name belongs to a case
