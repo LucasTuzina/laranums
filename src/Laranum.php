@@ -105,7 +105,7 @@ trait Laranum
      */
     public static function names(): array
     {
-        return array_map(fn ($case) => $case->name, self::cases());
+        return array_map(static fn ($case) => $case->name, self::cases());
     }
 
     /**
@@ -113,7 +113,7 @@ trait Laranum
      */
     public static function values(): array
     {
-        return array_map(fn ($case) => $case->value, self::cases());
+        return array_map(static fn ($case) => $case->value, self::cases());
     }
 
     /**

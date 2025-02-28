@@ -1,7 +1,7 @@
 {
     "name": "lucastuzina/laranums",
-    "description": "Provides a trait with useful utility methods for enums in laravel",
-    "type": "libary",
+    "description": "Provides a trait with useful utility methods for enums in Laravel",
+    "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
@@ -9,5 +9,14 @@
         }
     },
     "minimum-stability": "stable",
-    "require": {}
+    "require": {
+        "illuminate/support": "^10.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Lucastuzina\\Laranums\\LaranumsServiceProvider"
+            ]
+        }
+    }
 }
