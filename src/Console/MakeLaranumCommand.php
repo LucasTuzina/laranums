@@ -1,6 +1,6 @@
 <?php
 
-namespace Lucastuzina\Laranums\console;
+namespace Lucastuzina\Laranums\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
