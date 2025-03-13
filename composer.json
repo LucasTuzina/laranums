@@ -19,5 +19,8 @@
                 "Lucastuzina\\Laranums\\LaranumsServiceProvider"
             ]
         }
+    },
+    "require-dev": {
+        "illuminate/console": "^12.2"
     }
 }

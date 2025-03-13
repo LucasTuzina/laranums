@@ -1,19 +1,30 @@
 <?php
 
+namespace Lucastuzina\Laranums\console;
+
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
-class MakeEnumCommand extends Command
+class MakeLaranumCommand extends Command
 {
-    protected $signature = 'make:enum {name} {values*}';
+    protected $signature = 'make:enum {name} {values*} {--type= : The backed type (int|string)}';
     protected $description = 'Create a new enum class with the Laranum trait';
 
-    public function handle()
+    public function handle(): void
     {
         $name = ucfirst($this->argument('name'));
-        $values = array_map(fn($value) => "    case " . ucfirst($value) . " = '$value';", $this->argument('values'));
+        $values = $this->argument('values');
+        $type = $this->option('type');
 
-        // Enum-Template mit Laranum-Trait
+        $backedType = in_array($type, ['int', 'string']) ? ": $type" : "";
+
+        $cases = array_map(static function ($value) use ($type) {
+            $formattedValue = ucfirst($value);
+            $backedValue = $type === 'int' ? (int) $value : "'$value'";
+
+            return "    case $formattedValue $backedValue;";
+        }, $values);
+
         $content = <<<PHP
             <?php
             
@@ -21,11 +32,11 @@ class MakeEnumCommand extends Command
             
             use Lucastuzina\Laranums\Laranum;
             
-            enum $name: string
+            enum $name$backedType
             {
                 use Laranum;
             
-                " . implode("\n", $values) . "
+            " . implode("\n", $cases) . "
             }
             
             PHP;

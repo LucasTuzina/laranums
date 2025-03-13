@@ -20,7 +20,7 @@ class LaranumsServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
-                \Lucastuzina\Laranums\Console\MakeEnumCommand::class,
+                \Lucastuzina\Laranums\Console\MakeLaranumCommand::class,
             ]);
         }
     }
