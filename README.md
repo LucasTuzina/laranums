@@ -29,12 +29,12 @@ Laranums provides a convenient Artisan command to generate enums with the `Laran
 
 #### **Usage:**
 ```sh
-php artisan make:enum EnumName [backedType] caseOne caseTwo caseThree
+php artisan make:laranum EnumName [backedType] caseOne caseTwo caseThree
 ```
 
 #### **Example:**
 ```sh
-php artisan make:enum UserRole string admin editor guest
+php artisan make:laranum UserRole string admin editor guest
 ```
 
 This will generate the following enum file:
