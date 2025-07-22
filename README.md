@@ -1,6 +1,10 @@
-[![Packagist Downloads](https://img.shields.io/packagist/dt/lucastuzina/laranums.svg)](https://packagist.org/packages/lucastuzina/laranums)
+
 # Laranums
 Larnums Package provides useful methods nearly every Laravel application that uses enums needs.
+
+[![Packagist Downloads](https://img.shields.io/packagist/dt/lucastuzina/laranums.svg)](https://packagist.org/packages/lucastuzina/laranums)
+![Version](https://img.shields.io/badge/version-1.4.0-purple)
+![License](https://img.shields.io/badge/license-MIT-blue)
 
 ## Installation
 `composer require lucastuzina/laranums`
