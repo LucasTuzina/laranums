@@ -33,7 +33,8 @@ trait Laranum
     public static function fromValue($value): ?self
     {
         foreach (self::cases() as $case) {
-            if ($case->value === $value) {
+            $caseValue = isset($case->value) ? $case->value : $case->name;
+            if ($caseValue === $value) {
                 return $case;
             }
         }
@@ -83,7 +84,8 @@ trait Laranum
     {
         $pairs = [];
         foreach (self::cases() as $case) {
-            $pairs[$case->value] = $case->name;
+            $value = isset($case->value) ? $case->value : $case->name;
+            $pairs[$value] = $case->name;
         }
         return $pairs;
     }
@@ -95,7 +97,8 @@ trait Laranum
     {
         $pairs = [];
         foreach (self::cases() as $case) {
-            $pairs[$case->name] = $case->value;
+            $value = isset($case->value) ? $case->value : $case->name;
+            $pairs[$case->name] = $value;
         }
         return $pairs;
     }
@@ -113,7 +116,9 @@ trait Laranum
      */
     public static function values(): array
     {
-        return array_map(static fn ($case) => $case->value, self::cases());
+        return array_map(static function ($case) {
+            return isset($case->value) ? $case->value : $case->name;
+        }, self::cases());
     }
 
     /**
@@ -143,7 +148,8 @@ trait Laranum
     {
         $translated = [];
         foreach (self::cases() as $case) {
-            $translated[$case->value] = Lang::get(
+            $value = isset($case->value) ? $case->value : $case->name;
+            $translated[$value] = Lang::get(
                 'enums.'.Str::snake(class_basename(static::class)).'.'.$case->name
             );
         }
@@ -216,9 +222,10 @@ trait Laranum
      */
     public function jsonSerialize(): array
     {
+        $value = isset($this->value) ? $this->value : $this->name;
         return [
             'name' => $this->name,
-            'value' => $this->value,
+            'value' => $value,
             'translation' => self::trans($this->name),
         ];
     }
