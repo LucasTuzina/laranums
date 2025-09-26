@@ -1,6 +1,10 @@
-[![Packagist Downloads](https://img.shields.io/packagist/dt/lucastuzina/laranums.svg)](https://packagist.org/packages/lucastuzina/laranums)
+
 # Laranums
 Larnums Package provides useful methods nearly every Laravel application that uses enums needs.
+
+[![Packagist Downloads](https://img.shields.io/packagist/dt/lucastuzina/laranums.svg)](https://packagist.org/packages/lucastuzina/laranums)
+![Version](https://img.shields.io/badge/version-1.4.0-darkgreen)
+![License](https://img.shields.io/badge/license-MIT-blue)
 
 ## Installation
 `composer require lucastuzina/laranums`
@@ -25,12 +29,12 @@ Laranums provides a convenient Artisan command to generate enums with the `Laran
 
 #### **Usage:**
 ```sh
-php artisan make:enum EnumName [backedType] caseOne caseTwo caseThree
+php artisan make:laranum EnumName [backedType] caseOne caseTwo caseThree
 ```
 
 #### **Example:**
 ```sh
-php artisan make:enum UserRole string admin editor guest
+php artisan make:laranum UserRole string admin editor guest
 ```
 
 This will generate the following enum file:
