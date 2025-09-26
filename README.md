@@ -54,6 +54,38 @@ enum UserRole: string
 
 The command ensures that your enums are structured correctly and automatically includes the `Laranum` trait, giving you access to all the useful utility methods provided by the package.
 
+## Utility Enums
+Laranums now includes ready-to-use utility enums for common use cases:
+
+### Unit Enum
+The `Unit` enum provides various units of measurement with built-in conversion functionality:
+
+```php
+use Lucastuzina\Laranums\Enums\Unit;
+
+// Available units include:
+// Length: Centimeter, Meter, Kilometer, Inch, Foot, Yard, Mile
+// Weight: Gram, Kilogram, Ton, Ounce, Pound
+// Time: Seconds, Minutes, Hours, Days, Weeks, Months, Years
+// Speed: KilometersPerHour, MilesPerHour, MetersPerSecond, FeetPerSecond
+// Temperature: Celsius, Fahrenheit, Kelvin
+// Other: Percentage, BeatsPerMinute, Count, MlPerKgMin, Newton, Joule, Watt, Kilowatt
+
+// Usage examples:
+$meters = Unit::Meter;
+echo $meters->value; // 'm'
+
+// Unit conversion
+$result = Unit::convert(100, Unit::Centimeter, Unit::Meter); // 1.0
+$result = Unit::convert(32, Unit::Fahrenheit, Unit::Celsius); // 0.0
+$result = Unit::convert(1, Unit::Kilometer, Unit::Meter); // 1000.0
+
+// Also includes all Laranum trait methods
+$allUnits = Unit::cases();
+$randomUnit = Unit::rand();
+$unitFromValue = Unit::fromValue('km'); // Unit::Kilometer
+```
+
 ## Utility Methods
 Laranums provides various helper methods to make working with enums easier:
 
