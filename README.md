@@ -19,8 +19,8 @@ enum SomeEnum
 {
     use Laranum;
 
-    case FirstCase;
-    case SecondCase;
+    case FIRST_CASE;
+    case SECOND_CASE;
 }
 ```
 
@@ -34,7 +34,7 @@ php artisan make:laranum EnumName [backedType] caseOne caseTwo caseThree
 
 #### **Example:**
 ```sh
-php artisan make:laranum UserRole string admin editor guest
+php artisan make:laranum UserRole string ADMIN EDITOR GUEST
 ```
 
 This will generate the following enum file:
@@ -50,9 +50,9 @@ enum UserRole: string
 {
     use Laranum;
 
-    case Admin = 'admin';
-    case Editor = 'editor';
-    case Guest = 'guest';
+    case ADMIN = 'admin';
+    case EDITOR = 'editor';
+    case GUEST = 'guest';
 }
 ```
 
@@ -68,26 +68,26 @@ The `Unit` enum provides various units of measurement with built-in conversion f
 use Lucastuzina\Laranums\Enums\Unit;
 
 // Available units include:
-// Length: Centimeter, Meter, Kilometer, Inch, Foot, Yard, Mile
-// Weight: Gram, Kilogram, Ton, Ounce, Pound
-// Time: Seconds, Minutes, Hours, Days, Weeks, Months, Years
-// Speed: KilometersPerHour, MilesPerHour, MetersPerSecond, FeetPerSecond
-// Temperature: Celsius, Fahrenheit, Kelvin
-// Other: Percentage, BeatsPerMinute, Count, MlPerKgMin, Newton, Joule, Watt, Kilowatt
+// Length: CENTIMETER, METER, KILOMETER, INCH, FOOT, YARD, MILE
+// Weight: GRAM, KILOGRAM, TON, OUNCE, POUND
+// Time: SECONDS, MINUTES, HOURS, DAYS, WEEKS, MONTHS, YEARS
+// Speed: KILOMETERS_PER_HOUR, MILES_PER_HOUR, METERS_PER_SECOND, FEET_PER_SECOND
+// Temperature: CELSIUS, FAHRENHEIT, KELVIN
+// Other: PERCENTAGE, BEATS_PER_MINUTE, COUNT, ML_PER_KG_MIN, NEWTON, JOULE, WATT, KILOWATT
 
 // Usage examples:
-$meters = Unit::Meter;
+$meters = Unit::METER;
 echo $meters->value; // 'm'
 
 // Unit conversion
-$result = Unit::convert(100, Unit::Centimeter, Unit::Meter); // 1.0
-$result = Unit::convert(32, Unit::Fahrenheit, Unit::Celsius); // 0.0
-$result = Unit::convert(1, Unit::Kilometer, Unit::Meter); // 1000.0
+$result = Unit::convert(100, Unit::CENTIMETER, Unit::METER); // 1.0
+$result = Unit::convert(32, Unit::FAHRENHEIT, Unit::CELSIUS); // 0.0
+$result = Unit::convert(1, Unit::KILOMETER, Unit::METER); // 1000.0
 
 // Also includes all Laranum trait methods
 $allUnits = Unit::cases();
 $randomUnit = Unit::rand();
-$unitFromValue = Unit::fromValue('km'); // Unit::Kilometer
+$unitFromValue = Unit::fromValue('km'); // Unit::KILOMETER
 ```
 
 ## Utility Methods
