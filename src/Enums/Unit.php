@@ -9,48 +9,48 @@ enum Unit: string
 {
     use Laranum;
 
-    case Centimeter = 'cm';
-    case Meter = 'm';
-    case Kilometer = 'km';
-    case Inch = 'inch';
-    case Foot = 'ft';
-    case Yard = 'yd';
-    case Mile = 'mi';
+    case CENTIMETER = 'cm';
+    case METER = 'm';
+    case KILOMETER = 'km';
+    case INCH = 'inch';
+    case FOOT = 'ft';
+    case YARD = 'yd';
+    case MILE = 'mi';
 
-    case Gram = 'g';
-    case Kilogram = 'kg';
-    case Ton = 't';
-    case Ounce = 'oz';
-    case Pound = 'lbs';
+    case GRAM = 'g';
+    case KILOGRAM = 'kg';
+    case TON = 't';
+    case OUNCE = 'oz';
+    case POUND = 'lbs';
 
-    case Seconds = 'sec';
-    case Minutes = 'min';
-    case Hours = 'h';
-    case Days = 'd';
-    case Weeks = 'wk';
-    case Months = 'mo';
-    case Years = 'yr';
+    case SECONDS = 'sec';
+    case MINUTES = 'min';
+    case HOURS = 'h';
+    case DAYS = 'd';
+    case WEEKS = 'wk';
+    case MONTHS = 'mo';
+    case YEARS = 'yr';
 
-    case Percentage = '%';
-    case KilometersPerHour = 'km/h';
-    case MilesPerHour = 'mph';
-    case MetersPerSecond = 'm/s';
-    case FeetPerSecond = 'ft/s';
+    case PERCENTAGE = '%';
+    case KILOMETERS_PER_HOUR = 'km/h';
+    case MILES_PER_HOUR = 'mph';
+    case METERS_PER_SECOND = 'm/s';
+    case FEET_PER_SECOND = 'ft/s';
 
-    case BeatsPerMinute = 'bpm';
+    case BEATS_PER_MINUTE = 'bpm';
 
-    case Count = 'count';
+    case COUNT = 'count';
 
-    case MlPerKgMin = 'ml/kg/min';
+    case ML_PER_KG_MIN = 'ml/kg/min';
 
-    case Newton = 'N';
-    case Joule = 'J';
-    case Watt = 'W';
-    case Kilowatt = 'kW';
+    case NEWTON = 'N';
+    case JOULE = 'J';
+    case WATT = 'W';
+    case KILOWATT = 'kW';
 
-    case Celsius = '°C';
-    case Fahrenheit = '°F';
-    case Kelvin = 'K';
+    case CELSIUS = '°C';
+    case FAHRENHEIT = '°F';
+    case KELVIN = 'K';
 
     public static function convert(float $value, Unit $from, Unit $to): float
     {
@@ -59,44 +59,44 @@ enum Unit: string
         }
 
         $conversions = [
-            self::Centimeter->value => [
-                self::Meter->value => fn ($v) => $v / 100,
+            self::CENTIMETER->value => [
+                self::METER->value => fn ($v) => $v / 100,
             ],
-            self::Meter->value => [
-                self::Centimeter->value => fn ($v) => $v * 100,
-                self::Kilometer->value => fn ($v) => $v / 1000,
+            self::METER->value => [
+                self::CENTIMETER->value => fn ($v) => $v * 100,
+                self::KILOMETER->value => fn ($v) => $v / 1000,
             ],
-            self::Kilometer->value => [
-                self::Meter->value => fn ($v) => $v * 1000,
-            ],
-
-            self::Gram->value => [
-                self::Kilogram->value => fn ($v) => $v / 1000,
-            ],
-            self::Kilogram->value => [
-                self::Gram->value => fn ($v) => $v * 1000,
-                self::Ton->value => fn ($v) => $v / 1000,
-            ],
-            self::Ton->value => [
-                self::Kilogram->value => fn ($v) => $v * 1000,
+            self::KILOMETER->value => [
+                self::METER->value => fn ($v) => $v * 1000,
             ],
 
-            self::MetersPerSecond->value => [
-                self::KilometersPerHour->value => fn ($v) => $v * 3.6,
+            self::GRAM->value => [
+                self::KILOGRAM->value => fn ($v) => $v / 1000,
             ],
-            self::KilometersPerHour->value => [
-                self::MetersPerSecond->value => fn ($v) => $v / 3.6,
+            self::KILOGRAM->value => [
+                self::GRAM->value => fn ($v) => $v * 1000,
+                self::TON->value => fn ($v) => $v / 1000,
+            ],
+            self::TON->value => [
+                self::KILOGRAM->value => fn ($v) => $v * 1000,
             ],
 
-            self::Celsius->value => [
-                self::Fahrenheit->value => fn ($v) => $v * 9 / 5 + 32,
-                self::Kelvin->value => fn ($v) => $v + 273.15,
+            self::METERS_PER_SECOND->value => [
+                self::KILOMETERS_PER_HOUR->value => fn ($v) => $v * 3.6,
             ],
-            self::Fahrenheit->value => [
-                self::Celsius->value => fn ($v) => ($v - 32) * 5 / 9,
+            self::KILOMETERS_PER_HOUR->value => [
+                self::METERS_PER_SECOND->value => fn ($v) => $v / 3.6,
             ],
-            self::Kelvin->value => [
-                self::Celsius->value => fn ($v) => $v - 273.15,
+
+            self::CELSIUS->value => [
+                self::FAHRENHEIT->value => fn ($v) => $v * 9 / 5 + 32,
+                self::KELVIN->value => fn ($v) => $v + 273.15,
+            ],
+            self::FAHRENHEIT->value => [
+                self::CELSIUS->value => fn ($v) => ($v - 32) * 5 / 9,
+            ],
+            self::KELVIN->value => [
+                self::CELSIUS->value => fn ($v) => $v - 273.15,
             ],
         ];
 
