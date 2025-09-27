@@ -3,7 +3,7 @@
 Larnums Package provides useful methods nearly every Laravel application that uses enums needs.
 
 [![Packagist Downloads](https://img.shields.io/packagist/dt/lucastuzina/laranums.svg)](https://packagist.org/packages/lucastuzina/laranums)
-![Version](https://img.shields.io/badge/version-1.4.0-darkgreen)
+![Version](https://img.shields.io/badge/version-1.5.0-darkgreen)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
 ## Installation
