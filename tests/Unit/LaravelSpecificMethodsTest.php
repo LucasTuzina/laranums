@@ -6,10 +6,11 @@ use Illuminate\Support\Collection;
 use Lucastuzina\Laranums\Tests\Fixtures\StatusEnum;
 use Lucastuzina\Laranums\Tests\Fixtures\PriorityEnum;
 use Lucastuzina\Laranums\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class LaravelSpecificMethodsTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_create_collection_of_enum_cases()
     {
         $collection = StatusEnum::collect();
@@ -21,41 +22,31 @@ class LaravelSpecificMethodsTest extends TestCase
         $this->assertContains(StatusEnum::Pending, $collection->all());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_serialize_enum_to_json()
     {
-        // Mock the translation method
-        $this->app['translator']->shouldReceive('get')
-            ->with('enums.status_enum.Active')
-            ->andReturn('Aktiv');
+        $this->app['translator']->addLines(
+            ['enums.status_enum.Active' => 'Aktiv'],
+            'en'
+        );
 
-        $json = StatusEnum::Active->jsonSerialize();
-        
-        $expected = [
-            'name' => 'Active',
-            'value' => 'active',
-            'translation' => 'Aktiv'
-        ];
-        
-        $this->assertEquals($expected, $json);
+        $this->assertEquals(
+            ['name' => 'Active', 'value' => 'active', 'translation' => 'Aktiv'],
+            StatusEnum::Active->jsonSerialize()
+        );
     }
 
-    /** @test */
+    #[Test]
     public function it_can_serialize_integer_backed_enum_to_json()
     {
-        // Mock the translation method
-        $this->app['translator']->shouldReceive('get')
-            ->with('enums.priority_enum.High')
-            ->andReturn('Hoch');
+        $this->app['translator']->addLines(
+            ['enums.priority_enum.High' => 'Hoch'],
+            'en'
+        );
 
-        $json = PriorityEnum::High->jsonSerialize();
-        
-        $expected = [
-            'name' => 'High',
-            'value' => 3,
-            'translation' => 'Hoch'
-        ];
-        
-        $this->assertEquals($expected, $json);
+        $this->assertEquals(
+            ['name' => 'High', 'value' => 3, 'translation' => 'Hoch'],
+            PriorityEnum::High->jsonSerialize()
+        );
     }
 }

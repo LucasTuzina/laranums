@@ -6,10 +6,11 @@ use Lucastuzina\Laranums\Tests\Fixtures\StatusEnum;
 use Lucastuzina\Laranums\Tests\Fixtures\PriorityEnum;
 use Lucastuzina\Laranums\Tests\Fixtures\SimpleEnum;
 use Lucastuzina\Laranums\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class LookupMethodsTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_find_enum_case_by_name()
     {
         $case = StatusEnum::fromName('Active');
@@ -19,7 +20,7 @@ class LookupMethodsTest extends TestCase
         $this->assertNull($case);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_find_enum_case_by_value()
     {
         $case = StatusEnum::fromValue('active');
@@ -29,7 +30,7 @@ class LookupMethodsTest extends TestCase
         $this->assertNull($case);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_find_enum_case_by_name_with_default()
     {
         $case = StatusEnum::fromNameOrDefault('Active', StatusEnum::Inactive);
@@ -39,7 +40,7 @@ class LookupMethodsTest extends TestCase
         $this->assertSame(StatusEnum::Inactive, $case);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_find_enum_case_by_value_with_default()
     {
         $case = StatusEnum::fromValueOrDefault('active', StatusEnum::Inactive);
@@ -49,7 +50,7 @@ class LookupMethodsTest extends TestCase
         $this->assertSame(StatusEnum::Inactive, $case);
     }
 
-    /** @test */
+    #[Test]
     public function it_works_with_simple_enums_for_name_lookup()
     {
         $case = SimpleEnum::fromName('One');
@@ -59,7 +60,7 @@ class LookupMethodsTest extends TestCase
         $this->assertNull($case);
     }
 
-    /** @test */
+    #[Test]
     public function it_works_with_integer_backed_enums()
     {
         $case = PriorityEnum::fromValue(1);

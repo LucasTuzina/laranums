@@ -6,10 +6,11 @@ use Lucastuzina\Laranums\Tests\Fixtures\StatusEnum;
 use Lucastuzina\Laranums\Tests\Fixtures\PriorityEnum;
 use Lucastuzina\Laranums\Tests\Fixtures\SimpleEnum;
 use Lucastuzina\Laranums\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class UtilityMethodsTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_random_enum_case()
     {
         $case = StatusEnum::rand();
@@ -17,7 +18,7 @@ class UtilityMethodsTest extends TestCase
         $this->assertContains($case, StatusEnum::cases());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_random_enum_case_excluding_given_cases()
     {
         $ignoredCases = [StatusEnum::Active, StatusEnum::Inactive];
@@ -27,7 +28,7 @@ class UtilityMethodsTest extends TestCase
         $this->assertSame(StatusEnum::Pending, $case);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_null_when_all_cases_are_ignored()
     {
         $allCases = StatusEnum::cases();
@@ -36,7 +37,7 @@ class UtilityMethodsTest extends TestCase
         $this->assertNull($case);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_check_if_name_is_valid()
     {
         $this->assertTrue(StatusEnum::isValidName('Active'));
@@ -45,7 +46,7 @@ class UtilityMethodsTest extends TestCase
         $this->assertFalse(StatusEnum::isValidName('active')); // Case sensitive
     }
 
-    /** @test */
+    #[Test]
     public function it_can_check_if_value_is_valid()
     {
         $this->assertTrue(StatusEnum::isValidValue('active'));
@@ -59,7 +60,7 @@ class UtilityMethodsTest extends TestCase
         $this->assertFalse(PriorityEnum::isValidValue(999));
     }
 
-    /** @test */
+    #[Test]
     public function it_works_with_simple_enums_for_validation()
     {
         $this->assertTrue(SimpleEnum::isValidName('One'));

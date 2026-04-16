@@ -6,10 +6,11 @@ use Lucastuzina\Laranums\Tests\Fixtures\StatusEnum;
 use Lucastuzina\Laranums\Tests\Fixtures\PriorityEnum;
 use Lucastuzina\Laranums\Tests\Fixtures\SimpleEnum;
 use Lucastuzina\Laranums\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class ConversionMethodsTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_convert_to_array()
     {
         $expected = [
@@ -21,7 +22,7 @@ class ConversionMethodsTest extends TestCase
         $this->assertEquals($expected, StatusEnum::toArray());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_convert_to_array_reversed()
     {
         $expected = [
@@ -33,14 +34,14 @@ class ConversionMethodsTest extends TestCase
         $this->assertEquals($expected, StatusEnum::toArrayReversed());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_all_names()
     {
         $expected = ['Active', 'Inactive', 'Pending'];
         $this->assertEquals($expected, StatusEnum::names());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_all_values()
     {
         $expected = ['active', 'inactive', 'pending'];
@@ -50,7 +51,7 @@ class ConversionMethodsTest extends TestCase
         $this->assertEquals($expectedInt, PriorityEnum::values());
     }
 
-    /** @test */
+    #[Test]
     public function it_works_with_simple_enums()
     {
         $names = SimpleEnum::names();
@@ -61,7 +62,7 @@ class ConversionMethodsTest extends TestCase
         $this->assertEquals(['One', 'Two', 'Three'], $values);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_convert_integer_backed_enums_to_array()
     {
         $expected = [

@@ -1,115 +1,134 @@
 
 # Laranums
-Larnums Package provides useful methods nearly every Laravel application that uses enums needs.
+Laranums is a Laravel package that turns PHP enums into a first-class, fully-featured domain primitive. One trait unlocks lookup, conversion, translations, attribute-driven UI metadata, navigation, filtering, comparison, ordering and more.
 
 [![Packagist Downloads](https://img.shields.io/packagist/dt/lucastuzina/laranums.svg)](https://packagist.org/packages/lucastuzina/laranums)
-![Version](https://img.shields.io/badge/version-1.5.2-darkgreen)
+![Version](https://img.shields.io/badge/version-2.0.0-darkgreen)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
 ## Installation
-`composer require lucastuzina/laranums`
+```sh
+composer require lucastuzina/laranums
+```
 
-## Usage
-To use the Package simple import the trait on your enum:
+## Quickstart
+Drop the `Laranum` trait into any enum:
 
 ```php
 use Lucastuzina\Laranums\Laranum;
 
-enum SomeEnum
+enum Status: string
 {
     use Laranum;
 
-    case FIRST_CASE;
-    case SECOND_CASE;
+    case Active   = 'active';
+    case Inactive = 'inactive';
+    case Pending  = 'pending';
 }
+
+Status::fromValue('active');             // Status::Active
+Status::toSelectOptions();               // ['active' => 'Active', 'inactive' => 'Inactive', …]
+Status::Active->next();                  // Status::Inactive
+Status::Active->in([Status::Pending]);   // false
 ```
 
-### Generating Enums with Artisan
-Laranums provides a convenient Artisan command to generate enums with the `Laranum` trait automatically. This command creates an enum file in the `app/Enums` directory.
+## Documentation
+Full docs live in the [`docs/`](docs/) directory:
 
-#### **Usage:**
-```sh
-php artisan make:laranum EnumName [backedType] caseOne caseTwo caseThree
-```
+- **[Case Attributes](docs/case-attributes.md)** — `#[Label]`, `#[Color]`, `#[Icon]`, `#[Description]` plus `label()`, `color()`, `icon()`, `description()`, `toSelectOptions()`.
+- **[Trait Methods](docs/trait-methods.md)** — Every method the trait adds, organised by concern.
+- **[Utility Enums](docs/utility-enums.md)** — Ready-to-use enums (Unit, HttpStatus, Day, Currency, Country, Language, …).
+- **[Laravel Integration](docs/laravel-integration.md)** — Validation rules, Faker provider, Eloquent query macros.
+- **[Artisan Command](docs/artisan-command.md)** — Scaffold new enums with `php artisan make:laranum`.
 
-#### **Example:**
-```sh
-php artisan make:laranum UserRole string ADMIN EDITOR GUEST
-```
+## Feature Overview
 
-This will generate the following enum file:
+### Case Attributes
+Attach UI metadata directly to cases — no `match` statements, no framework lock-in.
 
 ```php
-<?php
+use Lucastuzina\Laranums\Attributes\{Label, Color, Icon};
 
-namespace App\Enums;
-
-use Lucastuzina\Laranums\Laranum;
-
-enum UserRole: string
+enum OrderStatus: string
 {
     use Laranum;
 
-    case ADMIN = 'admin';
-    case EDITOR = 'editor';
-    case GUEST = 'guest';
+    #[Label('Pending'), Color('yellow'), Icon('clock')]
+    case PENDING = 'pending';
+
+    #[Label('Paid'), Color('green'), Icon('check-circle')]
+    case PAID = 'paid';
 }
+
+OrderStatus::PAID->color();   // 'green'
+OrderStatus::toSelectOptions(); // ['pending' => 'Pending', 'paid' => 'Paid']
 ```
+→ [Full details](docs/case-attributes.md)
 
-The command ensures that your enums are structured correctly and automatically includes the `Laranum` trait, giving you access to all the useful utility methods provided by the package.
+### Method Cheatsheet
+| Concern        | Methods                                                                          |
+|----------------|----------------------------------------------------------------------------------|
+| Lookup         | `fromName`, `fromValue`, `fromNameOrDefault`, `fromValueOrDefault`, `isValidName`, `isValidValue` |
+| Metadata       | `className`                                                                      |
+| Conversion     | `toArray`, `toArrayReversed`, `names`, `values`, `collect`                       |
+| Translations   | `trans`, `transNames`, `transValues`                                             |
+| Attributes     | `label`, `color`, `icon`, `description`, `toSelectOptions`                       |
+| Navigation     | `first`, `last`, `count`, `at`, `index`, `next`, `previous`                      |
+| Filtering      | `only`, `except`, `rand`, `random`                                               |
+| Comparison     | `is`, `in`, `notIn`                                                              |
+| Ordering       | `compare`, `lessThan`, `greaterThan`, `between`                                  |
+| JSON           | `jsonSerialize`                                                                  |
+| Validation     | `rule`, `ruleOnly`, `ruleExcept`                                                 |
 
-## Utility Enums
-Laranums now includes ready-to-use utility enums for common use cases:
+→ [Full reference](docs/trait-methods.md)
 
-### Unit Enum
-The `Unit` enum provides various units of measurement with built-in conversion functionality:
+### Utility Enums
+Ready-to-use, domain-neutral enums that ship with the full `Laranum` trait baked in.
+
+| Enum                 | Purpose                                                                     |
+|----------------------|-----------------------------------------------------------------------------|
+| `Unit`               | Length, weight, time, speed, temperature, … with built-in conversion.       |
+| `HttpStatus`         | IANA status codes with category helpers (`isSuccess`, `isClientError`, …). |
+| `HttpMethod`         | `isSafe`, `isIdempotent`, `hasRequestBody` per RFC 7231.                    |
+| `Day`                | ISO-8601 weekdays with `isWeekday`, `isWeekend`, `short`.                   |
+| `Month`              | Leap-year-aware `daysInMonth`, `quarter`, `short`.                          |
+| `Quarter`            | `months()`, `firstMonth()`, `lastMonth()`.                                  |
+| `Season`             | Meteorological seasons with hemisphere support.                             |
+| `CardinalDirection`  | 8-point compass with `degrees`, `opposite`, `fromDegrees`.                  |
+| `Continent`          | Seven-continent model with ISO codes.                                       |
+| `Currency`           | ISO 4217 (~150 codes) with `symbol`, `decimals`, `format`.                  |
+| `Country`            | All 249 ISO 3166-1 countries with `alpha3`, `numeric`, `dialCode`, `continent`, `flag`. |
+| `Language`           | ISO 639-1 (~180 codes) with `nativeName`, `isRtl`.                          |
+
+→ [Full details](docs/utility-enums.md)
+
+### Laravel Integration
+- **Validation:** `OrderStatus::rule()`, `::ruleOnly([...])`, `::ruleExcept([...])` — returns Laravel's native `Enum` rule, drop straight into a FormRequest.
+- **Faker:** `$faker->enum(OrderStatus::class)` via `LaranumFakerProvider`.
+- **Eloquent:** `Order::whereEnum('status', OrderStatus::PAID)` and `whereEnumNot`, `orWhereEnum` macros — accept enum instances or arrays directly.
+
+→ [Full details](docs/laravel-integration.md)
+
+### Artisan Command
+```sh
+php artisan make:laranum UserRole admin editor guest --type=string --lang=en,de
+```
+Scaffolds the enum and optional translation stubs under `lang/{locale}/enums.php`.
+
+→ [Full details](docs/artisan-command.md)
+
+## À la carte
+If you don't want the whole trait, compose your own from the concerns under `Lucastuzina\Laranums\Concerns\*`:
 
 ```php
-use Lucastuzina\Laranums\Enums\Unit;
+use Lucastuzina\Laranums\Concerns\{HasLookup, HasAttributes};
 
-// Available units include:
-// Length: CENTIMETER, METER, KILOMETER, INCH, FOOT, YARD, MILE
-// Weight: GRAM, KILOGRAM, TON, OUNCE, POUND
-// Time: SECONDS, MINUTES, HOURS, DAYS, WEEKS, MONTHS, YEARS
-// Speed: KILOMETERS_PER_HOUR, MILES_PER_HOUR, METERS_PER_SECOND, FEET_PER_SECOND
-// Temperature: CELSIUS, FAHRENHEIT, KELVIN
-// Other: PERCENTAGE, BEATS_PER_MINUTE, COUNT, ML_PER_KG_MIN, NEWTON, JOULE, WATT, KILOWATT
-
-// Usage examples:
-$meters = Unit::METER;
-echo $meters->value; // 'm'
-
-// Unit conversion
-$result = Unit::convert(100, Unit::CENTIMETER, Unit::METER); // 1.0
-$result = Unit::convert(32, Unit::FAHRENHEIT, Unit::CELSIUS); // 0.0
-$result = Unit::convert(1, Unit::KILOMETER, Unit::METER); // 1000.0
-
-// Also includes all Laranum trait methods
-$allUnits = Unit::cases();
-$randomUnit = Unit::rand();
-$unitFromValue = Unit::fromValue('km'); // Unit::KILOMETER
+enum MyEnum: string
+{
+    use HasLookup, HasAttributes;
+    // ...
+}
 ```
-
-## Utility Methods
-Laranums provides various helper methods to make working with enums easier:
-
-- **fromName(string $name): ?self** – Get an enum case by name.
-- **fromValue($value): ?self** – Get an enum case by value (for backed enums).
-- **fromNameOrDefault(string $name, self $default): self** – Get an enum case by name, or return a default.
-- **fromValueOrDefault($value, self $default): self** – Get an enum case by value, or return a default.
-- **className(): string** – Get the enum class name.
-- **toArray(): array** – Get an associative array of `[value => name]`.
-- **toArrayReversed(): array** – Get an associative array of `[name => value]`.
-- **names(): array** – Get an array of all case names.
-- **values(): array** – Get an array of all case values.
-- **transNames(): array** – Get translated names `[name => translation]`.
-- **transValues(): array** – Get translated values `[value => translation]`.
-- **trans(string $caseName): string** – Get a translated string for a specific case.
-- **rand(array $ignoredCases = []): ?self** – Get a random case, optionally ignoring some.
-- **isValidName($name): bool** – Check if a given name exists in the enum.
-- **isValidValue($value): bool** – Check if a given value exists in the enum.
-- **collect(): Collection** – Get a Laravel collection of all cases.
-- **jsonSerialize(): array** – Serialize the enum for JSON output.
 
 ## License
 This package is open-sourced software licensed under the MIT license.

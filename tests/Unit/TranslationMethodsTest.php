@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Lang;
 use Lucastuzina\Laranums\Tests\Fixtures\StatusEnum;
 use Lucastuzina\Laranums\Tests\Fixtures\PriorityEnum;
 use Lucastuzina\Laranums\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class TranslationMethodsTest extends TestCase
 {
@@ -39,7 +40,7 @@ class TranslationMethodsTest extends TestCase
             ->andReturn('Hoch');
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_translated_names()
     {
         $expected = [
@@ -51,7 +52,7 @@ class TranslationMethodsTest extends TestCase
         $this->assertEquals($expected, StatusEnum::transNames());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_translated_values()
     {
         $expected = [
@@ -63,14 +64,14 @@ class TranslationMethodsTest extends TestCase
         $this->assertEquals($expected, StatusEnum::transValues());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_translate_single_case()
     {
         $this->assertEquals('Aktiv', StatusEnum::trans('Active'));
         $this->assertEquals('Niedrig', PriorityEnum::trans('Low'));
     }
 
-    /** @test */
+    #[Test]
     public function it_works_with_integer_backed_enums()
     {
         $expected = [
